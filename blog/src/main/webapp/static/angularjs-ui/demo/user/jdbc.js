@@ -14,6 +14,25 @@
                 }
             }
         };
+        // 用于处理跟回调函数相反的方式,当defer调用resolve方法之后,就会触发defer.promise.then(callback)传入的callback方法,并且resolve可以传入任意的变量
+        /**
+         *
+         * function test() {
+         *  var defer = $q.defer();
+         *  setTimeout(2000, function() {
+         *      defer.resolve("hello");
+         *  });
+         *  return defer.promise;
+         * }
+         *
+         * test().then(function(say) {
+         *  console.log(say);
+         * });
+         *
+         * 2秒之后将会打印出"hello"
+         *
+         * @type {Deferred|*}
+         */
         var defer = $q.defer();
         _self.onload = function(cb) {
             return defer.promise.then(cb);
@@ -23,13 +42,13 @@
             if (db) {
                 d.resolve(db);
             }
-            //打开数据库
+            // 打开数据库
             var result = window.indexedDB.open(myDB.name);
             result.onerror = function (e) {
                 console.log("Open DB Error!");
                 d.reject("error");
             };
-            //正确打开
+            // 正确打开
             result.onsuccess = function (e) {
                 var db = e.target.result;
                 myDB.db = db;
@@ -41,20 +60,20 @@
             var d = $q.defer();
             var name = name || myDB.name;
             var version = version || myDB.version;
-            //打开数据库
+            // 打开数据库
             var result = window.indexedDB.open(name, version);
-            //错误
+            // 错误
             result.onerror = function (e) {
                 console.log("Open DB Error!");
                 d.reject(e);
             };
-            //正确打开
+            // 正确打开
             result.onsuccess = function (e) {
                 myDB.db = e.target.result;
                 if (success) success(myDB.db);
                 d.resolve(e);
             };
-            //数据库版本变更
+            // 数据库版本变更
             result.onupgradeneeded = function (e) {
                 myDB.db = e.target.result;
                 if (upgrade) upgrade(myDB.db);
@@ -63,7 +82,6 @@
             return d.promise;
         };
         var schema = function (schema) {
-            var i = 0;
             angular.forEach(schema, function(upgrade, version, o) {
                 _self.openDB(myDB.name, version, function() {
                     defer.resolve();
@@ -74,7 +92,7 @@
         };
         schema(myDB.schema);
         _self.get = function (storeName, key) {
-            var d = $q.defer();//promise
+            var d = $q.defer(); //promise
             getDb(myDB.db).then(function (db) {
                 var transaction = db.transaction(storeName, 'readonly');
                 var store = transaction.objectStore(storeName);
