@@ -1,0 +1,1 @@
+var app = angular.module('routingDemoApp', ['ui.router', 'ui.bootstrap', 'ui.bootstrap.alert']);

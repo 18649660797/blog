@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width"/>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="userCtrl">
+<div class="container">
+    <h3>Users</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Edit</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="one in users">
+            <td>
+                <button class="btn" ng-click="editUser(one)">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+                </button>
+                <button class="btn" ng-click="deleteUser(one.id)">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Delete
+                </button>
+            </td>
+            <td>{{ one.fName }}</td>
+            <td>{{ one.lName }}</td>
+            <td>{{ one.telephone }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <button class="btn btn-success" ng-click="editUser()">
+        <span class="glyphicon glyphicon-user"></span> Create New User
+    </button>
+    <hr>
+
+    <h3 ng-show="edit">Create New User:</h3>
+    <h3 ng-hide="edit">Edit User:</h3>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">First Name:</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="user.fName" ng-disabled="!edit" placeholder="First Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Last Name:</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="user.lName" ng-disabled="!edit" placeholder="Last Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">telephone:</label>
+            <div class="col-sm-10">
+                <input type="tel" ng-model="user.telephone" placeholder="telephone">
+            </div>
+        </div>
+    </form>
+    <hr>
+    <button class="btn btn-success" ng-disabled="error || incomplete" ng-click="saveCustomer()">
+        <span class="glyphicon glyphicon-save"></span> Save Changes
+    </button>
+</div>
+<script src="jdbc.js?v=2323"></script>
+<script src="myUsers.js"></script>
+</body>
+</html>
