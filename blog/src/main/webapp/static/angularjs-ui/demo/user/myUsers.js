@@ -23,10 +23,7 @@ angular.module('myApp', ['db']).controller("userCtrl", function($scope, $http, j
             _user.lName = user.lName;
             _user.telephone = user.telephone;
         } else {
-            _user.fName = "";
-            _user.lName = "";
-            _user.telephone = "";
-            _user.id = "";
+            $scope.user = _user = {};
         }
     };
     $scope.deleteUser = function(id) {
