@@ -5,6 +5,7 @@ app.controller('AlertDemoCtrl', function ($scope) {
     ];
 
     $scope.addAlert = function () {
+        alert(1);
         $scope.alerts.push({msg: 'Another alert!'});
     };
 
